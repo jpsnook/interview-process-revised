@@ -177,11 +177,22 @@ public class Hello implements EntryPoint {
                         });
             }
         }
+		
+		// JS - add a handler for clearing the person's name
+		class ClearHandler implements ClickHandler {
+            public void onClick(ClickEvent event) {
+                personName.setText("");
+            }
+		}
 
         // Add a handler to send the name to the server
         MyHandler handler = new MyHandler();
         sendButton.addClickHandler(handler);
         nameField.addKeyUpHandler(handler);
+		
+		// JS - add a handler to clear the person's text box
+		ClearHandler clearHandler = new ClearHandler();
+		clearPersonButton.addClickHandler(clearHandler);
 
         /* Layout for person information*/
         FlexTable layout = new FlexTable();
