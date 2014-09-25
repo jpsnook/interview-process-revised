@@ -215,6 +215,14 @@ public class Hello implements EntryPoint {
 		
 		RootPanel.get("nameFieldContainer").add(nameField);
         RootPanel.get("sendButtonContainer").add(sendButton);
+		
+		// JS - add handler to countCallButton, before adding to panel
+		countCallButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                onCountCallServiceClick();
+            }
+        });
         RootPanel.get("sendButtonContainer").add(countCallButton);
         RootPanel.get("countCall").add(countCallLabel);
         RootPanel.get("errorLabelContainer").add(errorLabel);
@@ -234,7 +242,7 @@ public class Hello implements EntryPoint {
         });
 	    
 	}
-	
+
 	
 	private void onGetPersonClick(){
 	    int personId = 1;
@@ -250,6 +258,25 @@ public class Hello implements EntryPoint {
 	        };
 	    });
 	}
+	
+	private void onCountCallServiceClick(){
+	    Integer countCallInput = new Integer(0); // I don't know what this parameter is for, and it's not documented
+		
+	    countCallService.countCall(countCallInput, new AsyncCallback<Integer>() {
+	        @Override
+	        public void onFailure(Throwable caught) {
+	            caught.printStackTrace();
+	            Window.alert("Error : " + caught.getMessage());
+	        }
+	        public void onSuccess(Integer result) {
+	        	updateCountCallInformation(result);
+	        };
+	    });
+	}
+	
+	private void updateCountCallInformation(Integer result) {
+		countCallLabel.setText(result.toString());
+	]
 	
 	private void updatePersonInformation(PersonInfo person){
 		personId.setText(String.valueOf(person.getPersonID()));
